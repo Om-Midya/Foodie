@@ -1,8 +1,9 @@
-import {Image} from "react-native";
-import {Text, View} from "@/src/components/Themed";
+import {Image, Pressable} from "react-native";
+import {Text} from "@/src/components/Themed";
 import Colors from "@/src/constants/Colors";
 import {StyleSheet} from "react-native";
 import {Product} from "@/src/types.ts"
+import {Link} from "expo-router";
 
 
 const defaultPizzaImage = 'https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_960_720.jpg';
@@ -13,11 +14,13 @@ type ProductItemProps = {
 
 const ProductItem = ({product}: ProductItemProps) => {
     return (
-        <View style={styles.container}>
-            <Image source={{uri: product.image || defaultPizzaImage}} style={styles.image} />
-            <Text style={styles.title}> {product.name} </Text>
-            <Text style={styles.price}>${product.price}</Text>
-        </View>
+        <Link href={`/${product.id}`} asChild>
+            <Pressable style={styles.container}>
+                <Image source={{uri: product.image || defaultPizzaImage}} style={styles.image} />
+                <Text style={styles.title}> {product.name} </Text>
+                <Text style={styles.price}>${product.price}</Text>
+            </Pressable>
+        </Link>
     );
 }
 

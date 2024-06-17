@@ -8,6 +8,7 @@ export default function TabOneScreen() {
       data={products}
       renderItem={({item}) => <ProductItem product={item} />}
       numColumns={2}
+      contentContainerStyle={{margin:5}}
       />
   );
 }
