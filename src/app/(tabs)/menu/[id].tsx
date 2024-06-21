@@ -30,6 +30,7 @@ const ProductDetailsScreen = () => {
             <View style={styles.sizes}>
                 {Object.keys(sizes).map((size) => (
                     <Pressable
+                        key={size}
                         style={size===selectedSize? styles.selectedSize:styles.size}
                         onPress={() => setSelectedSize(size)}
                     >
