@@ -3,22 +3,44 @@ import {Stack, useLocalSearchParams} from "expo-router";
 import products from "@/assets/data/products";
 import {useState} from "react";
 import {circleAsync} from "@expo/image-utils/build/jimp";
+import {PizzaSize} from "@/src/types";
+import {useCart} from "@/src/providers/CartProvider";
 
 const ProductDetailsScreen = () => {
     const {id} = useLocalSearchParams()
+    const {addItem} = useCart();
+    const sizes: PizzaSize[]= ['S', 'M', 'L', 'XL'];
 
-    const sizes = {
-        'S': 0.75,
-        'M': 1,
-        'L': 1.25,
-        'XL': 1.5,
-    };
-
-    const [selectedSize, setSelectedSize] = useState('M');
+    const [selectedSize, setSelectedSize] = useState<PizzaSize>('M');
 
     const product = products.find((product) => product.id.toString() === id);
 
-    const price = (product?.price * sizes[selectedSize]).toFixed(2);
+    const addToCart = () => {
+        if(product) {
+            addItem(product, selectedSize, price(product));
+        }
+        else {
+            return <Text>Product Not found</Text>
+        }
+    }
+
+    const price = (product: typeof products[0] | undefined) => {
+        if(!product) return '0';
+        switch(selectedSize) {
+            case 'S':
+                return (product.price * 0.8).toFixed(2);
+            case 'M':
+                return product.price.toFixed(2);
+            case 'L':
+                return (product.price * 1.5).toFixed(2);
+            case 'XL':
+                return (product.price * 1.75).toFixed(2);
+            default:
+                return product.price.toFixed(2);
+        }
+    }
+
+    //console.log(price(product));
 
     return (
         <View style={styles.container}>
@@ -28,11 +50,11 @@ const ProductDetailsScreen = () => {
             <Image source={{uri: product?.image}} style={styles.image}/>
             <Text style={{fontSize:20}}>Available Sizes:</Text>
             <View style={styles.sizes}>
-                {Object.keys(sizes).map((size) => (
+                {sizes.map((size) => (
                     <Pressable
                         key={size}
                         style={size===selectedSize? styles.selectedSize:styles.size}
-                        onPress={() => setSelectedSize(size)}
+                        onPress={() => setSelectedSize(size as PizzaSize)}
                     >
                         <Text
                             key={size}
@@ -43,8 +65,8 @@ const ProductDetailsScreen = () => {
             </View>
 
             <View style={styles.price}>
-                <Text style={styles.priceText}>Price: ${price}</Text>
-                <Button title={"Add to Cart"} onPress={() => {console.warn("Adding to cart")}}/>
+                <Text style={styles.priceText}>Price: ${price(product)}</Text>
+                <Button title={"Add to Cart"} onPress={addToCart}/>
             </View>
         </View>
     );

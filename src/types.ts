@@ -12,6 +12,7 @@ export type CartItem = {
   product: Product;
   product_id: number;
   size: PizzaSize;
+  price: number;
   quantity: number;
 };
 
