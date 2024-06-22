@@ -1,5 +1,5 @@
 import {View, Text, Image, StyleSheet, Pressable, Button} from "react-native";
-import {Stack, useLocalSearchParams} from "expo-router";
+import {Stack, useLocalSearchParams, useRouter} from "expo-router";
 import products from "@/assets/data/products";
 import {useState} from "react";
 import {circleAsync} from "@expo/image-utils/build/jimp";
@@ -13,11 +13,14 @@ const ProductDetailsScreen = () => {
 
     const [selectedSize, setSelectedSize] = useState<PizzaSize>('M');
 
+    const router = useRouter();
+
     const product = products.find((product) => product.id.toString() === id);
 
     const addToCart = () => {
         if(product) {
-            addItem(product, selectedSize, price(product));
+            addItem(product, selectedSize, price(product))
+            router.navigate('/cart');
         }
         else {
             return <Text>Product Not found</Text>

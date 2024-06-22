@@ -6,7 +6,7 @@ import {Product} from "@/src/types.ts"
 import {Link} from "expo-router";
 
 
-const defaultPizzaImage = 'https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_960_720.jpg';
+export const defaultPizzaImage = 'https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_960_720.jpg';
 
 type ProductItemProps = {
     product: Product;
