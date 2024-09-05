@@ -23,7 +23,7 @@ Before you begin, ensure you have the following installed:
 1. Clone the repository:
    ```
    git clone https://github.com/om-midya/Foodie.git
-   cd pizza-delivery-app
+   cd Foodie
    ```
 
 2. Install dependencies:
